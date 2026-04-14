@@ -131,7 +131,11 @@ def create_customer_segment_df(df):
     return customer_segment_df
 
 # Mengurutkan data berdasarkan order_purchase_timestamp
-all_df = pd.read_csv('dashboard/main_data.csv')
+try:
+    all_df = pd.read_csv('main_data.csv')
+except:
+    all_df = pd.read_csv('dashboard/main_data.csv')
+
 all_df.sort_values(by="order_purchase_timestamp", inplace=True)
 all_df.reset_index(inplace=True)
 datetime_columns = ["order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date", "shipping_limit_date"]
