@@ -178,7 +178,6 @@ customer_segment_df = create_customer_segment_df(main_df)
 st.header('E-Commerce Dashboard')
 
 # Dashboard Monthly Revenue
-st.write(theme)
 st.subheader('Monthly Revenue')
 total_revenue = format_currency(monthly_orders_df.revenue.sum(), "BRL", locale='es_CO') 
 st.metric("Total Revenue", value=total_revenue)
