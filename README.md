@@ -3,7 +3,7 @@
 ## Setup Environment - Shell/Terminal
 ```
 python -m venv .venv
-./.venv/source/activate
+.venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
