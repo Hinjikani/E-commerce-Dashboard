@@ -12,3 +12,6 @@ pip install -r requirements.txt
 cd dashboard
 streamlit run dashboard.py
 ```
+
+## Dashboard can be seen on this link
+https://e-commerce-dashboard-pascal.streamlit.app/
