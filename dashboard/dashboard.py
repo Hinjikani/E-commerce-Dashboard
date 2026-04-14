@@ -5,6 +5,10 @@ import streamlit as st
 import numpy as np
 from babel.numbers import format_currency
 
+# Set tick_color to white if streamlit is in "dark mode" and black if streamlit is in "light mode"
+theme = st.context.theme.type
+tick_color = "white" if theme == "dark" else "black"
+
 sns.set(style='dark')
 
 # Menyiapkan Dataframe
@@ -174,6 +178,7 @@ customer_segment_df = create_customer_segment_df(main_df)
 st.header('E-Commerce Dashboard')
 
 # Dashboard Monthly Revenue
+st.write(theme)
 st.subheader('Monthly Revenue')
 total_revenue = format_currency(monthly_orders_df.revenue.sum(), "BRL", locale='es_CO') 
 st.metric("Total Revenue", value=total_revenue)
@@ -186,8 +191,8 @@ ax.plot(
     linewidth=2,
     color="#90CAF9"
 )
-ax.tick_params(axis='y', labelcolor='#ffffff', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#ffffff', labelsize=15)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
 ax.grid(
@@ -214,8 +219,8 @@ ax.plot(
     linewidth=2,
     color="#90CAF9"
 )
-ax.tick_params(axis='y', labelcolor='#ffffff', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#ffffff', labelsize=15)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
 ax.grid(
@@ -268,8 +273,8 @@ sns.barplot(
     palette=["#72BCD4", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
 )
 
-ax.tick_params(axis='y', labelcolor='#FFFFFF', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#FFFFFF', labelsize=20)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=20)
 ax.set(xlabel=None, ylabel=None)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
@@ -288,9 +293,9 @@ sns.barplot(
     )
 ax.set_ylabel(None)
 ax.set_xlabel(None)
-ax.set_title("Product Sales",color='#ffffff', loc="center", fontsize=30)
-ax.tick_params(axis='y', labelcolor='#ffffff', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#ffffff', labelsize=15)
+ax.set_title("Product Sales",color=tick_color, loc="center", fontsize=30)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
 ax.grid(
@@ -312,9 +317,9 @@ sns.barplot(
     )
 ax.set_ylabel(None)
 ax.set_xlabel(None)
-ax.set_title("Product Revenue", color='#ffffff', loc="center", fontsize=30)
-ax.tick_params(axis='y', labelcolor='#ffffff', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#ffffff', labelsize=15)
+ax.set_title("Product Revenue", color=tick_color, loc="center", fontsize=30)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 ax.ticklabel_format(style='plain', axis='x')
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
@@ -337,9 +342,9 @@ sns.barplot(
     )
 ax.set_ylabel(None)
 ax.set_xlabel(None)
-ax.set_title("Product Sales",color='#ffffff', loc="center", fontsize=30)
-ax.tick_params(axis='y', labelcolor='#ffffff', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#ffffff', labelsize=15)
+ax.set_title("Product Sales",color=tick_color, loc="center", fontsize=30)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
 ax.grid(
@@ -361,9 +366,9 @@ sns.barplot(
     )
 ax.set_ylabel(None)
 ax.set_xlabel(None)
-ax.set_title("Product Revenue", color='#ffffff', loc="center", fontsize=30)
-ax.tick_params(axis='y', labelcolor='#ffffff', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#ffffff', labelsize=15)
+ax.set_title("Product Revenue", color=tick_color, loc="center", fontsize=30)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 ax.ticklabel_format(style='plain', axis='x')
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
@@ -413,8 +418,8 @@ sns.barplot(
     data=state_sales_df.sort_values(by='counts', ascending=False).head(5),
     palette=colors
 )
-ax.tick_params(axis='y', labelcolor='#FFFFFF', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#FFFFFF', labelsize=20)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=20)
 ax.set(xlabel=None, ylabel=None)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
@@ -433,8 +438,8 @@ sns.barplot(
     data=state_sales_df.sort_values(by='revenue', ascending=False).head(5),
     palette=colors
 )
-ax.tick_params(axis='y', labelcolor='#FFFFFF', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#FFFFFF', labelsize=20)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=20)
 ax.set(xlabel=None, ylabel=None)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
@@ -457,8 +462,8 @@ sns.barplot(
     data=city_sales_df.sort_values(by='counts', ascending=False).head(5),
     palette=colors
 )
-ax.tick_params(axis='y', labelcolor='#FFFFFF', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#FFFFFF', labelsize=20)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=20)
 ax.set(xlabel=None, ylabel=None)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
@@ -477,8 +482,8 @@ sns.barplot(
     data=city_sales_df.sort_values(by='revenue', ascending=False).head(5),
     palette=colors
 )
-ax.tick_params(axis='y', labelcolor='#FFFFFF', labelsize=20)
-ax.tick_params(axis='x', labelcolor='#FFFFFF', labelsize=20)
+ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
+ax.tick_params(axis='x', labelcolor=tick_color, labelsize=20)
 ax.set(xlabel=None, ylabel=None)
 fig.patch.set_alpha(0.0)
 ax.patch.set_alpha(0.0)
@@ -502,8 +507,10 @@ sns.barplot(
     palette=["#72BCD4", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3", "#D3D3D3"]
 )
 ax.set(xlabel=None, ylabel=None)
-ax.set_title("By Recency (days)", loc="center", fontsize=18)
-ax.tick_params(axis ='x', labelsize=15)
+ax.tick_params(axis ='x', labelcolor=tick_color, labelsize=15)
+ax.tick_params(axis ='y', labelcolor=tick_color, labelsize=15)
+fig.patch.set_alpha(0.0)
+ax.patch.set_alpha(0.0)
 st.pyplot(fig)
 
 st.markdown('#### Frequency')
@@ -514,8 +521,10 @@ sns.barplot(y="customer_id",
             hue='customer_id')
 ax.set_ylabel(None)
 ax.set_xlabel(None)
-ax.set_title("By Frequency", loc="center", fontsize=18)
-ax.tick_params(axis='x', labelsize=15)
+ax.tick_params(axis ='x', labelcolor=tick_color, labelsize=15)
+ax.tick_params(axis ='y', labelcolor=tick_color, labelsize=15)
+fig.patch.set_alpha(0.0)
+ax.patch.set_alpha(0.0)
 st.pyplot(fig)
 
 st.markdown('#### Monetary')
@@ -526,14 +535,14 @@ sns.barplot(y="customer_id",
             hue='customer_id')
 ax.set_ylabel(None)
 ax.set_xlabel(None)
-ax.set_title("By Monetary", loc="center", fontsize=18)
-ax.tick_params(axis='x', labelsize=15)
+ax.tick_params(axis ='x', labelcolor=tick_color, labelsize=15)
+ax.tick_params(axis ='y', labelcolor=tick_color, labelsize=15)
+fig.patch.set_alpha(0.0)
+ax.patch.set_alpha(0.0)
 st.pyplot(fig)
 
 st.markdown('#### Segmentation')
 col1, col2, col3, col4, col5 = st.columns(5)
-
-
 
 with col1:
     st.metric(label = 'Top Value Customer', value=f"{customer_segment_df.loc[customer_segment_df['customer_segment'] == 'Top customer', 'count'].item()}")
@@ -555,8 +564,11 @@ sns.barplot(
     data=customer_segment_df.sort_values(by="count", ascending=False),
     palette=colors_
 )
-plt.title("Number of Customer for Each Segment", loc="center", fontsize=15)
+plt.title("Number of Customer for Each Segment", color=tick_color, loc="center", fontsize=15)
 plt.ylabel(None)
 plt.xlabel(None)
-plt.tick_params(axis='y', labelsize=12)
+ax.tick_params(axis ='x', labelcolor=tick_color, labelsize=15)
+ax.tick_params(axis ='y', labelcolor=tick_color, labelsize=15)
+fig.patch.set_alpha(0.0)
+ax.patch.set_alpha(0.0)
 st.pyplot(fig)
