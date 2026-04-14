@@ -4,6 +4,7 @@ import seaborn as sns
 import streamlit as st
 import numpy as np
 from babel.numbers import format_currency
+
 sns.set(style='dark')
 
 # Menyiapkan Dataframe
@@ -35,7 +36,7 @@ def create_shipping_stats_df(df):
 
 # Create_payment_method untuk menyiapkan payment_method_df
 def create_payment_method_df(df):
-    payment_method_df = all_df['payment_type'].value_counts().reset_index()
+    payment_method_df = df['payment_type'].value_counts().reset_index()
     payment_method_df.columns = ['payment_type', 'order_count']
     return payment_method_df
 
@@ -130,7 +131,7 @@ def create_customer_segment_df(df):
     return customer_segment_df
 
 # Mengurutkan data berdasarkan order_purchase_timestamp
-all_df = pd.read_csv('main_data.csv')
+all_df = pd.read_csv('./main_data.csv')
 all_df.sort_values(by="order_purchase_timestamp", inplace=True)
 all_df.reset_index(inplace=True)
 datetime_columns = ["order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date", "shipping_limit_date"]
