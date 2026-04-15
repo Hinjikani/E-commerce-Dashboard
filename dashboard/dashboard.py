@@ -18,19 +18,18 @@ def drop_payment_duplicate(df):
     return df_cleaned
 
 # Create_monthly_orders untuk menyiapkan monthly_orders_df
-
-def create_monthly_orders_df(df):
-    monthly_orders_df = df.resample(rule='ME', on='order_purchase_timestamp').agg({
+def create_monthly_orders_revenue_df(df):
+    monthly_df = df.resample(rule='ME', on='order_purchase_timestamp').agg({
         "price":"sum",
         "order_id":"nunique"
     })
-    monthly_orders_df = monthly_orders_df.reset_index()
-    monthly_orders_df.rename(columns={
+    monthly_df = monthly_df.reset_index()
+    monthly_df.rename(columns={
         "price": "revenue",
         "order_id": "orders"
     }, inplace=True)
-
-    return monthly_orders_df
+    monthly_df['year'] = monthly_df['order_purchase_timestamp'].dt.year
+    return monthly_df
 
 # Create_shipping_stats untuk menyiapkan shipping_stats_df
 def create_shipping_stats_df(df):
@@ -164,7 +163,7 @@ with st.sidebar:
 main_df = all_df[(all_df['order_purchase_timestamp'] >= str(start_date)) & 
                 (all_df['order_purchase_timestamp'] <= str(end_date))]
 
-monthly_orders_df = create_monthly_orders_df(main_df)
+monthly_orders_revenue_df = create_monthly_orders_revenue_df(main_df)
 shipping_stats_df = create_shipping_stats_df(main_df)
 payment_method_df = create_payment_method_df(main_df)
 category_sales_df = create_category_sales_df(main_df)
@@ -179,17 +178,23 @@ st.header('E-Commerce Dashboard')
 
 # Dashboard Monthly Revenue
 st.subheader('Monthly Revenue')
-total_revenue = format_currency(monthly_orders_df.revenue.sum(), "BRL", locale='es_CO') 
+total_revenue = format_currency(monthly_orders_revenue_df.revenue.sum(), "BRL", locale='es_CO') 
 st.metric("Total Revenue", value=total_revenue)
 
 fig, ax = plt.subplots(figsize=(16, 8))
 ax.plot(
-    monthly_orders_df["order_purchase_timestamp"],
-    monthly_orders_df["revenue"],
-    marker='o', 
-    linewidth=2,
-    color="#90CAF9"
+    monthly_orders_revenue_df["order_purchase_timestamp"],
+    monthly_orders_revenue_df["revenue"],
+    color='gray', 
+    alpha=1,
+    zorder=1
 )
+sns.lineplot(data=monthly_orders_revenue_df,
+             x='order_purchase_timestamp',
+             y='revenue',
+             hue='year',
+             palette='Set1',
+             marker='o')
 ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
 ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 fig.patch.set_alpha(0.0)
@@ -200,24 +205,33 @@ ax.grid(
     linestyle='--',
     alpha=0.45)
 ax.ticklabel_format(style='plain', axis='y')
-
+ax.set_ylabel(None)
+ax.set_xlabel(None)
+plt.legend(loc='upper left')
 st.pyplot(fig)
 
 # Dashboard Monthly Orders
 st.subheader('Monthly Orders')
 col1, col2 = st.columns(2)
 
-total_orders = monthly_orders_df.orders.sum()
+total_orders = monthly_orders_revenue_df.orders.sum()
 st.metric("Total Orders", value=total_orders)
  
 fig, ax = plt.subplots(figsize=(16, 8))
 ax.plot(
-    monthly_orders_df["order_purchase_timestamp"],
-    monthly_orders_df["orders"],
-    marker='o', 
+    monthly_orders_revenue_df["order_purchase_timestamp"],
+    monthly_orders_revenue_df["orders"],
     linewidth=2,
-    color="#90CAF9"
+    color='gray',
+    alpha=0.45,
+    zorder=1
 )
+sns.lineplot(data=monthly_orders_revenue_df,
+             x='order_purchase_timestamp',
+             y='orders',
+             hue='year',
+             palette='Set1',
+             marker='o')
 ax.tick_params(axis='y', labelcolor=tick_color, labelsize=20)
 ax.tick_params(axis='x', labelcolor=tick_color, labelsize=15)
 fig.patch.set_alpha(0.0)
@@ -227,7 +241,9 @@ ax.grid(
     axis='y',
     linestyle='--',
     alpha=0.45)
-
+ax.set_ylabel(None)
+ax.set_xlabel(None)
+plt.legend(loc='upper left')
 st.pyplot(fig)
 
 # Dashboard Delivery Time Performance
@@ -238,7 +254,7 @@ with col1:
     st.metric(label='Average Time', value=f"{shipping_stats_df['mean'].round(2)} Days")
 with col2:
     st.metric(label="Standard Deviation", value=f"{shipping_stats_df['std'].round(2)}")
-st.subheader('Delivery Time Metrics')
+st.subheader('Delivery Time Statistics')
 col1, col2, col3, col4, col5 = st.columns(5)
 with col1:
     st.metric(label="Min", value=f"{shipping_stats_df['min'].round(2)}")
