@@ -6,7 +6,7 @@
 ```
 # Make sure you are in the project's directory
 python -m venv .venv
-.venv/Scripts/activate
+.venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
@@ -14,7 +14,7 @@ pip install -r requirements.txt
 ```
 # Make sure you are in the project's directory
 python -m venv .venv
-source .venv\Scripts\activate
+source .venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
